@@ -1,10 +1,17 @@
+function resolveSiteUrl() {
+  const vercelUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL;
+  const raw = process.env.NEXT_PUBLIC_SITE_URL || (vercelUrl ? `https://${vercelUrl}` : "http://localhost:3100");
+  const withProtocol = /^https?:\/\//i.test(raw.trim()) ? raw.trim() : `https://${raw.trim()}`;
+  return withProtocol.replace(/\/+$/, "");
+}
+
 export const siteConfig = {
   name: "Crystal Online Academy",
   shortName: "Crystal",
   tagline: "Personal 1:1 online tutoring for children in the UK & Canada",
   description:
     "Hand-picked, fully vetted tutors teaching children from Early Years to GCSE and Grade 12, live and one-to-one, with progress you can actually see.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  url: resolveSiteUrl(),
   email: "hello@crystalonlineacademy.com",
   phone: "+44 20 0000 0000",
   whatsapp: "https://wa.me/440000000000",
