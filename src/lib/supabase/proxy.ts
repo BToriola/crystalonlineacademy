@@ -6,7 +6,8 @@ import { DEMO_ROLE_COOKIE } from "@/features/auth/constants";
 const PROTECTED_PREFIXES = ["/dashboard", "/admin", "/tutor", "/parent", "/learner", "/messages", "/settings"];
 
 export async function updateSession(request: NextRequest) {
-  const isProtected = PROTECTED_PREFIXES.some((p) => request.nextUrl.pathname.startsWith(p));
+  const { pathname } = request.nextUrl;
+  const isProtected = PROTECTED_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`));
 
   if (!isSupabaseConfigured) {
     if (isProtected && !request.cookies.get(DEMO_ROLE_COOKIE)) {
